@@ -3,13 +3,20 @@ package hey.yimm.springbootsso_role.controller;
 import hey.yimm.springbootsso_role.bean.User;
 import hey.yimm.springbootsso_role.service.UserService;
 import hey.yimm.springbootsso_role.util.JWTUtil;
+import hey.yimm.springbootsso_role.util.ResponseData;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -21,16 +28,20 @@ public class UserController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public String userLogin(String username,String password){
-        System.out.println("UserController:"+username);
-        System.out.println("UserController:"+password);
+    public ResponseData<String> userLogin(@RequestBody User user){
+        System.out.println("UserController:"+user.getUsername());
+        System.out.println("UserController:"+user.getPassword());
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password);
-        User userByUsernameAndPwd = userService.getUserByUsernameAndPwd(username, password);
+        ResponseData<String> stringResponseData = new ResponseData<>();
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUsername(),user.getPassword());
+        User userByUsernameAndPwd = userService.getUserByUsernameAndPwd(user.getUsername(),user.getPassword());
         try {
-           subject.login(usernamePasswordToken);
+            subject.login(usernamePasswordToken);
             String token = JWTUtil.createToken(userByUsernameAndPwd);
-            return token;
+            stringResponseData.setCode(0);
+            stringResponseData.setT(token);
+            stringResponseData.setMessage("成功登录");
+            return stringResponseData;
         }catch ( UnknownAccountException uae ) {
            //未知账户异常   用户名不存在
            System.out.println(uae.getMessage());
@@ -52,11 +63,28 @@ public class UserController {
 
 
 
-//    @RequestMapping("/getuser")
+//    @RequestMapping("/token")
 //    @ResponseBody
-//    public String getUser(String id){
-//        User userById = userService.getUserById(id);
-//        return userById.getUsername();
+//    public ResponseData<String> getUser(HttpServletRequest req,HttpServletResponse resp){
+//        stringResponseData.setCode(0);
+//        stringResponseData.setMessage("检查token存在");
+//        stringResponseData.setT(stringResponseData.getT());
+//        return stringResponseData;
+//    }
+
+
+//    @RequiresRoles("超级管理员")
+//    @RequiresPermissions("新增")
+//    @RequestMapping("/saveinfo")
+//    public ResponseData<String> saveInfo(String username,String email,String phone,String realName,String sex,Byte status){
+//        System.out.println(username);
+//        System.out.println(email);
+//        ResponseData<String> stringResponseData = new ResponseData<>();
+//        System.out.println("添加用户");
+//
+//        stringResponseData.setCode(401002);
+//        stringResponseData.setMessage("成功登录");
+//        return stringResponseData;
 //    }
 
 

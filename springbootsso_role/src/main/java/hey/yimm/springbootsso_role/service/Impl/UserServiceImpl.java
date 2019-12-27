@@ -34,4 +34,13 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public User getUserSuperInfoByUsername(String username) {
+        User user = userMapper.selectUserSuperInfoByUsername(username);
+        if (user==null){
+            return null;
+        }
+        return user;
+    }
 }

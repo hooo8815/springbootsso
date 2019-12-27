@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title> 后台管理系统</title>
@@ -64,37 +64,40 @@
         var $ = jQuery = layui.jquery;
         var form = layui.form;
         var carousel = layui.carousel;
-        // $(function () {
-        //
-        // })
+        $(function () {
+            form.on('submit(submit)',function (data) {
+                CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
+                   // localStorage.setItem("token",res.t);
+                    CoreUtil.setData("access_token",res.t);
+                    CoreUtil.setData("refresh_token",res.t);
+                    //window.location.href="/index/home";
+                    location.href="/home.html";
+                });
 
-        form.on('submit(submit)',function (data) {
-            // alert(JSON.stringify(data.field));
-            // CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
-            //     alert(res);
-            //     CoreUtil.setData("access_token",res.data.accessToken);
-            //     CoreUtil.setData("refresh_token",res.data.refreshToken);
-            //     // window.location.href="/index/home";
-            //
-            // });
-            // return false;
+                return false;
 
-            $.post("/user/login",{
-                username: data.field.username,
-                password: data.field.password
-            },function (resp) {
-                location.href="/home.html?token="+resp;
+
+
+                //
+                //     $.post("/user/login",{
+                //         username: data.field.username,
+                //         password: data.field.password
+                //     },function (resp) {
+                //         localStorage.setItem("token",resp);
+                //         location.href="/home.html?token="+localStorage.getItem("token");
+                //     });
             });
-        });
-        //改变下时间间隔、动画类型、高度
-        carousel.render({
-            elem: '#carousel'
-            ,interval: 2000
-            ,anim: 'fade'
-            , full: true        //全屏
-            ,width: '100%'
-            ,arrow: 'none'
+            //改变下时间间隔、动画类型、高度
+            carousel.render({
+                elem: '#carousel'
+                ,interval: 2000
+                ,anim: 'fade'
+                , full: true        //全屏
+                ,width: '100%'
+                ,arrow: 'none'
+            })
         })
+
     </script>
 
 </body>

@@ -24,6 +24,13 @@
     id, username, salt, password, phone, dept_id, real_name, nick_name, email, status, 
     sex, deleted, create_id, update_id, create_where, create_time, update_time
   </sql>
+  <sql id="Role_Column_List" >
+    id, name, description, status, create_time, update_time, deleted
+  </sql>
+  <sql id="Permission_Column_List" >
+    id, code, name, perms, url, method, pid, order_num, type, status, create_time, update_time,
+    deleted
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -231,4 +238,64 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectRolesOfUserByUsername" parameterType="java.lang.String" resultMap="SuperUserResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Role_Column_List" />
+    ,
+    <include refid="Permission_Column_List" />
+    from user u,user_role ur,role r,role_permission rp, permission p
+    where u.id = ur.user_id
+    and ur.role_id = r.id
+    and r.id = rp.role_id
+    and rp.permission_id = p.id
+    and u.username = #{username,jdbcType=VARCHAR}
+  </select>
+  <resultMap id="SuperUserResultMap" type="hey.yimm.springbootsso_role.bean.User">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="deleted" jdbcType="TINYINT" property="deleted" />
+    <result column="create_id" jdbcType="VARCHAR" property="createId" />
+    <result column="update_id" jdbcType="VARCHAR" property="updateId" />
+    <result column="create_where" jdbcType="TINYINT" property="createWhere" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <collection property="roleSet" resultMap="SuperRoleResultMap" ofType="hey.yimm.springbootsso_role.bean.Role"></collection>
+  </resultMap>
+  <resultMap id="SuperRoleResultMap" type="hey.yimm.springbootsso_role.bean.Role" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="TINYINT" />
+    <collection property="permissionSet" resultMap="PermissionResultMap" ofType="hey.yimm.springbootsso_role.bean.Permission"></collection>
+  </resultMap>
+  <resultMap id="PermissionResultMap" type="hey.yimm.springbootsso_role.bean.Permission" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="perms" property="perms" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="TINYINT" />
+  </resultMap>
+  
 </mapper>

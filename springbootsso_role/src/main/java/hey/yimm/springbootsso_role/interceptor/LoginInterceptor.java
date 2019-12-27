@@ -23,23 +23,25 @@ public class LoginInterceptor extends BasicHttpAuthenticationFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         System.out.println(httpServletRequest.getRequestURL()+"进入拦截器-------------");
-        if (httpServletRequest.getRequestURI().contains("login.html")||httpServletRequest.getServletPath().contains("/user/login")||httpServletRequest.getServletPath().contains("css")||httpServletRequest.getServletPath().contains("images")||httpServletRequest.getServletPath().contains("js")||httpServletRequest.getServletPath().contains("layui")||httpServletRequest.getServletPath().contains("treetable-lay")||httpServletRequest.getServletPath().contains("error")){
+        //||httpServletRequest.getServletPath().contains("/user/login")||httpServletRequest.getRequestURI().contains("css")||httpServletRequest.getRequestURI().contains("images")||httpServletRequest.getRequestURI().contains("js")||httpServletRequest.getRequestURI().contains("layui")||httpServletRequest.getRequestURI().contains("treetable-lay")||httpServletRequest.getRequestURI().contains("error")
+        if (httpServletRequest.getRequestURI().contains("login.html")){
             System.out.println("放行操作"+httpServletRequest.getRequestURL());
             return true;
         }else{
-            String token = httpServletRequest.getParameter("token");
-            System.out.println("token:"+token);
-            if (token==null||token.equals("")){
+            String token = httpServletRequest.getHeader("authorization");
+            System.out.println("authorization:"+token);
+            if (token==null||token.equals("")||token.equals("null")){
                 System.out.println(httpServletRequest.getRequestURL()+"无token");
-                httpServletResponse.sendRedirect("/login.html");
+//                httpServletResponse.sendRedirect("/login.html");
                 return false;
             }
+
             String usernameByToken = JWTUtil.getUsernameByToken(token);
             System.out.println("usernameByToken:"+usernameByToken);
             User usersByUsername = userService.getUsersByUsername(usernameByToken);
             if (usersByUsername==null) {
                 System.out.println("无用户");
-                httpServletResponse.sendRedirect("/login.html");
+                //httpServletResponse.sendRedirect("/login.html");
                 return false;
             }
             System.out.println("验证成功，放行");

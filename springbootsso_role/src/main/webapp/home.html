@@ -25,9 +25,9 @@
                         <span id="nickName" ></span>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-id="userProper" data-title="基本资料" data-url="/index/users/info" class="menuNvaBar">基本资料</a></dd>
-                        <dd><a href="javascript:;" data-id="userSafe" data-title="安全设置" data-url="/index/users/password" class="menuNvaBar">更换密码</a></dd>
-                        <dd><a href="javascript:;" data-id="userSafe" data-title="关于" data-url="/index/about" class="menuNvaBar">关于</a></dd>
+                        <dd><a href="javascript:;" data-id="userProper" data-title="基本资料" data-url="/pages/users/user_edit.html?token=" class="menuNvaBar">基本资料</a></dd>
+                        <dd><a href="javascript:;" data-id="userSafe" data-title="安全设置" data-url="/pages/users/update_password.html?token=" class="menuNvaBar">更换密码</a></dd>
+                        <dd><a href="javascript:;" data-id="userSafe" data-title="关于" data-url="/pages/users/user_list.html?token=" class="menuNvaBar">关于</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a href="javascript:;" id="logout">退出</a></li>
@@ -61,6 +61,7 @@
     var $ = jQuery = layui.jquery;
     var form = layui.form;
     var element = layui.element;
+
     $(function () {
         FrameWH();
         //递归获取导航栏无线层级
@@ -126,7 +127,7 @@
         $(document).on('click','.menuNvaBar',function () {
             var dataid = $(this);
             if ($(".layui-tab-title li[lay-id]").length <= 0) {
-                active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"), dataid.attr("data-title"));
+                active.tabAdd(dataid.attr("data-url")+localStorage.getItem("token"), dataid.attr("data-id"), dataid.attr("data-title"));
             } else {
                 var isData = false;
                 $.each($(".layui-tab-title li[lay-id]"), function () {
@@ -135,7 +136,7 @@
                     }
                 })
                 if (isData == false) {
-                    active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"), dataid.attr("data-title"));
+                    active.tabAdd(dataid.attr("data-url")+localStorage.getItem("token"), dataid.attr("data-id"), dataid.attr("data-title"));
                 }
             }
             active.tabChange(dataid.attr("data-id"));

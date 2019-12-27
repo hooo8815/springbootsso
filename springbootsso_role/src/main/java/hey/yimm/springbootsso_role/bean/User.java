@@ -1,6 +1,7 @@
 package hey.yimm.springbootsso_role.bean;
 
 import java.util.Date;
+import java.util.Set;
 
 public class User {
     private String id;
@@ -36,6 +37,8 @@ public class User {
     private Date createTime;
 
     private Date updateTime;
+
+    private Set<Role> roleSet;
 
     public String getId() {
         return id;
@@ -171,5 +174,13 @@ public class User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Set<Role> getRoleSet() {
+        return roleSet;
+    }
+
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
     }
 }

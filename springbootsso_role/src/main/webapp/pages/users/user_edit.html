@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="/staticResource/layui/css/layui.css"  media="all">
 </head>
 <body>
 <div class="layui-container" style="width:600px;">
@@ -54,14 +54,14 @@
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="submit" class="layui-btn" lay-submit="" lay-filter="submit">保存</button>
+                <button type="submit" id="submit" class="layui-btn" lay-submit="" lay-filter="submit">保存</button>
             </div>
         </div>
     </form>
 </div>
 </body>
-<script src="/layui/layui.all.js"></script>
-<script src="/js/core.util.js"></script>
+<script src="/staticResource/layui/layui.all.js"></script>
+<script src="/staticResource/js/core.util.js"></script>
 <script>
     var layer = layui.layer;
     var $ = jQuery = layui.jquery;
@@ -93,7 +93,7 @@
 
         //监听提交
         form.on('submit(submit)', function(data){
-            CoreUtil.sendAjax("/sys/user/info",JSON.stringify(data.field),function (res) {
+            CoreUtil.sendAjax("/user/saveinfo?token="+localStorage.getItem("token"),JSON.stringify(data.field),function (res) {
                 layer.msg(res.msg);
             },"PUT",false);
             return false;

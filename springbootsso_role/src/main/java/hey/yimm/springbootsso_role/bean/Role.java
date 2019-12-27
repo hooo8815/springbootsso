@@ -1,6 +1,7 @@
 package hey.yimm.springbootsso_role.bean;
 
 import java.util.Date;
+import java.util.Set;
 
 public class Role {
     private String id;
@@ -16,6 +17,8 @@ public class Role {
     private Date updateTime;
 
     private Byte deleted;
+
+    private Set<Permission> permissionSet;
 
     public String getId() {
         return id;
@@ -71,5 +74,13 @@ public class Role {
 
     public void setDeleted(Byte deleted) {
         this.deleted = deleted;
+    }
+
+    public Set<Permission> getPermissionSet() {
+        return permissionSet;
+    }
+
+    public void setPermissionSet(Set<Permission> permissionSet) {
+        this.permissionSet = permissionSet;
     }
 }

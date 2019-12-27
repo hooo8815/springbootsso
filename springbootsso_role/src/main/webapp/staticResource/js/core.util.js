@@ -31,6 +31,7 @@ var CoreUtil = (function () {
                         layer.msg("凭证过期请重新登录")
                         top.window.location.href="/index/login"
                     }else if(res.code==401002){  //根据后端提示刷新token
+                        console.info("401002");
                         /*记录要重复刷新的参数*/
                         var reUrl=url;
                         var reParams=params;
@@ -70,7 +71,7 @@ var CoreUtil = (function () {
             error:function (XMLHttpRequest, textStatus, errorThrown) {
                 top.layer.close(roleSaveLoading);
                if(XMLHttpRequest.status==404){
-                    //top.window.location.href="/index/404";
+                    top.window.location.href="/index/404";
                 }else{
                     layer.msg("服务器好像除了点问题！请稍后试试");
                 }

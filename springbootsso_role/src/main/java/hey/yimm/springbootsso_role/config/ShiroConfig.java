@@ -1,6 +1,7 @@
 package hey.yimm.springbootsso_role.config;
 
 import hey.yimm.springbootsso_role.interceptor.LoginInterceptor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
@@ -21,22 +22,23 @@ public class ShiroConfig {
     @Bean("shiroFilterFactoryBean")
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
+        filters.put("jwtInterceptor",getLoginInterceptor());
         shiroFilterFactoryBean.setSecurityManager(getSecurityManager());
-        //shiroFilterFactoryBean.setLoginUrl("/login.html");
-//        shiroFilterFactoryBean.setUnauthorizedUrl("/home.html");
-        //shiroFilterFactoryBean.setSuccessUrl("/home.html");
-        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
-        filtersMap.put("jwtInterceptor",getLoginInterceptor());
-        shiroFilterFactoryBean.setFilters(filtersMap);
+        shiroFilterFactoryBean.setLoginUrl("/login.html");
+//        shiroFilterFactoryBean.setUnauthorizedUrl("/main.html");
+//        shiroFilterFactoryBean.setSuccessUrl("/home.html");
+
+
         Map<String, String> filterChainDefinitionMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
 
-//        filterChainDefinitionMap.put("/staticResource/**","anon");
-//        filterChainDefinitionMap.put("/pages/error/**","anon");
-//        filterChainDefinitionMap.put("/user/login","anon");
+        filterChainDefinitionMap.put("/staticResource/**","anon");
+        filterChainDefinitionMap.put("/pages/error/**","anon");
+        filterChainDefinitionMap.put("/user/login","anon");
 //        filterChainDefinitionMap.put("/main.html","anon");
 //        filterChainDefinitionMap.put("/login.html","anon");
         filterChainDefinitionMap.put("/**","jwtInterceptor");
-        //filterChainDefinitionMap.put("/**","authc");
+//        filterChainDefinitionMap.put("/**","authc");
         return shiroFilterFactoryBean;
     }
 
