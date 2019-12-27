@@ -24,12 +24,13 @@ public class LoginInterceptor extends BasicHttpAuthenticationFilter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         System.out.println(httpServletRequest.getRequestURL()+"进入拦截器-------------");
         //||httpServletRequest.getServletPath().contains("/user/login")||httpServletRequest.getRequestURI().contains("css")||httpServletRequest.getRequestURI().contains("images")||httpServletRequest.getRequestURI().contains("js")||httpServletRequest.getRequestURI().contains("layui")||httpServletRequest.getRequestURI().contains("treetable-lay")||httpServletRequest.getRequestURI().contains("error")
-        if (httpServletRequest.getRequestURI().contains("login.html")){
+        if (httpServletRequest.getRequestURI().contains("login.html")||httpServletRequest.getServletPath().contains("/user/login")||httpServletRequest.getRequestURI().contains("css")||httpServletRequest.getRequestURI().contains("images")||httpServletRequest.getRequestURI().contains("js")||httpServletRequest.getRequestURI().contains("layui")||httpServletRequest.getRequestURI().contains("treetable-lay")||httpServletRequest.getRequestURI().contains("error")){
             System.out.println("放行操作"+httpServletRequest.getRequestURL());
             return true;
         }else{
-            String token = httpServletRequest.getHeader("authorization");
-            System.out.println("authorization:"+token);
+            String token = httpServletRequest.getParameter("token");
+//            String token = httpServletRequest.getHeader("authorization");
+            System.out.println("token:"+token);
             if (token==null||token.equals("")||token.equals("null")){
                 System.out.println(httpServletRequest.getRequestURL()+"无token");
 //                httpServletResponse.sendRedirect("/login.html");

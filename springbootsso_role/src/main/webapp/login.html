@@ -67,13 +67,15 @@
         $(function () {
             form.on('submit(submit)',function (data) {
                 CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
-                   // localStorage.setItem("token",res.t);
                     CoreUtil.setData("access_token",res.t);
                     CoreUtil.setData("refresh_token",res.t);
-                    //window.location.href="/index/home";
-                    location.href="/home.html";
+                    alert(CoreUtil.getData("access_token"));
+                    // window.location.href="/home.html";
+                    localStorage.setItem("token",res.t);
+                    location.href="/home.html?token="+localStorage.getItem("token");
                 });
-
+                //alert(localStorage.getItem("token"));
+                //location.href="/home.html?token="+localStorage.getItem("token");
                 return false;
 
 
