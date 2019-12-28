@@ -1,8 +1,13 @@
 package hey.yimm.springbootsso_role.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 import java.util.Set;
 
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private String id;
 
@@ -22,7 +27,7 @@ public class User {
 
     private String email;
 
-    private Byte status;
+    private String status;
 
     private Byte sex;
 
@@ -112,11 +117,11 @@ public class User {
         this.email = email == null ? null : email.trim();
     }
 
-    public Byte getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

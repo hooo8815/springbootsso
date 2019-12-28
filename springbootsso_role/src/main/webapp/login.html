@@ -69,7 +69,7 @@
                 CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {
                     CoreUtil.setData("access_token",res.t);
                     CoreUtil.setData("refresh_token",res.t);
-                    alert(CoreUtil.getData("access_token"));
+                    // alert(CoreUtil.getData("access_token"));
                     // window.location.href="/home.html";
                     localStorage.setItem("token",res.t);
                     location.href="/home.html?token="+localStorage.getItem("token");

@@ -1,8 +1,10 @@
 package hey.yimm.springbootsso_role.controller;
 
+import hey.yimm.springbootsso_role.bean.Role;
 import hey.yimm.springbootsso_role.bean.User;
 import hey.yimm.springbootsso_role.service.UserService;
 import hey.yimm.springbootsso_role.util.JWTUtil;
+import hey.yimm.springbootsso_role.util.RedisUtil;
 import hey.yimm.springbootsso_role.util.ResponseData;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -11,6 +13,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +28,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -38,6 +43,7 @@ public class UserController {
         try {
             subject.login(usernamePasswordToken);
             String token = JWTUtil.createToken(userByUsernameAndPwd);
+            redisUtil.addTokenKey(token,user.getUsername());
             stringResponseData.setCode(0);
             stringResponseData.setT(token);
             stringResponseData.setMessage("成功登录");
@@ -75,17 +81,27 @@ public class UserController {
 
 //    @RequiresRoles("超级管理员")
 //    @RequiresPermissions("新增")
-//    @RequestMapping("/saveinfo")
-//    public ResponseData<String> saveInfo(String username,String email,String phone,String realName,String sex,Byte status){
-//        System.out.println(username);
-//        System.out.println(email);
-//        ResponseData<String> stringResponseData = new ResponseData<>();
-//        System.out.println("添加用户");
-//
-//        stringResponseData.setCode(401002);
-//        stringResponseData.setMessage("成功登录");
-//        return stringResponseData;
-//    }
+    @RequestMapping("/saveinfo")
+    @ResponseBody
+    public ResponseData<String> saveInfo(@RequestBody User user){
+        //String username,String email,String phone, String realName, String sex, Byte status
+        System.out.println(user.getUsername());
+        System.out.println(user.getEmail());
+        User userSuperInfoByUsername = userService.getUserSuperInfoByUsername(user.getUsername());
+        if (userSuperInfoByUsername!=null&&userSuperInfoByUsername.getRoleSet().size()!=0){
+            for (Role role : userSuperInfoByUsername.getRoleSet()) {
+                System.out.println(role);
+            }
+        }
+        System.out.println("添加用户");
+        ResponseData<String> stringResponseData = new ResponseData<>();
+        stringResponseData.setCode(0);
+        stringResponseData.setMessage("修改成功");
+        return stringResponseData;
+    }
+
+
+
 
 
 }

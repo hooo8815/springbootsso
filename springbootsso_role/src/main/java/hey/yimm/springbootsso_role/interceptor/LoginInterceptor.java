@@ -3,6 +3,7 @@ package hey.yimm.springbootsso_role.interceptor;
 import hey.yimm.springbootsso_role.bean.User;
 import hey.yimm.springbootsso_role.service.UserService;
 import hey.yimm.springbootsso_role.util.JWTUtil;
+import hey.yimm.springbootsso_role.util.RedisUtil;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ public class LoginInterceptor extends BasicHttpAuthenticationFilter {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
@@ -29,17 +32,24 @@ public class LoginInterceptor extends BasicHttpAuthenticationFilter {
             return true;
         }else{
             String token = httpServletRequest.getParameter("token");
-//            String token = httpServletRequest.getHeader("authorization");
             System.out.println("token:"+token);
+            if (token==null||token.equals("")||token.equals("null")){
+                token = httpServletRequest.getHeader("authorization");
+                System.out.println("authorization:"+token);
+            }
+//            String authorization = httpServletRequest.getHeader("authorization");
+
+//            System.out.println("authorization:"+authorization);
             if (token==null||token.equals("")||token.equals("null")){
                 System.out.println(httpServletRequest.getRequestURL()+"无token");
 //                httpServletResponse.sendRedirect("/login.html");
                 return false;
             }
-
-            String usernameByToken = JWTUtil.getUsernameByToken(token);
-            System.out.println("usernameByToken:"+usernameByToken);
-            User usersByUsername = userService.getUsersByUsername(usernameByToken);
+            String tokenValue = redisUtil.getTokenValue(token);
+            System.out.println("tokenValue:"+tokenValue);
+//            String usernameByToken = JWTUtil.getUsernameByToken(token);
+//            System.out.println("usernameByToken:"+usernameByToken);
+            User usersByUsername = userService.getUsersByUsername(tokenValue);
             if (usersByUsername==null) {
                 System.out.println("无用户");
                 //httpServletResponse.sendRedirect("/login.html");

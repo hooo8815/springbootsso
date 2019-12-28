@@ -93,9 +93,11 @@
 
         //监听提交
         form.on('submit(submit)', function(data){
-            CoreUtil.sendAjax("/user/saveinfo?token="+localStorage.getItem("token"),JSON.stringify(data.field),function (res) {
-                layer.msg(res.msg);
+            CoreUtil.sendAjax("/user/saveinfo",JSON.stringify(data.field),function (res) {
+                layer.msg(res.message,{time:3000},function () {
+                });
             },"PUT",false);
+
             return false;
         });
 

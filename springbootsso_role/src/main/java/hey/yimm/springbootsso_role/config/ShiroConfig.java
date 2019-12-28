@@ -37,7 +37,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user/login","anon");
 //        filterChainDefinitionMap.put("/main.html","anon");
 //        filterChainDefinitionMap.put("/login.html","anon");
-        filterChainDefinitionMap.put("/**","jwtInterceptor");
+        filterChainDefinitionMap.put("/pages/**","jwtInterceptor");
 //        filterChainDefinitionMap.put("/**","authc");
         return shiroFilterFactoryBean;
     }
