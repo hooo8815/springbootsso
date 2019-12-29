@@ -95,6 +95,7 @@
         form.on('submit(submit)', function(data){
             CoreUtil.sendAjax("/user/saveinfo",JSON.stringify(data.field),function (res) {
                 layer.msg(res.message,{time:3000},function () {
+                    //刷新或者关闭自己
                 });
             },"PUT",false);
 

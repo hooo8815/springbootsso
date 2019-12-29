@@ -1,6 +1,7 @@
 package hey.yimm.springbootsso_role.util;
 
 import hey.yimm.springbootsso_role.bean.User;
+import org.apache.shiro.crypto.hash.Md5Hash;
 
 public class ForTest {
     public static void main(String[] args) {
@@ -12,15 +13,15 @@ public class ForTest {
 //        boolean md52 = PasswordUtil.checkPassword("123456", md51, "MD5", 3);
 //        System.out.println(md52);
 
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassword("123456");
-        String token = JWTUtil.createToken(user);
-        System.out.println(token);
-        String usernameAddPasswordByToken = JWTUtil.getUsernameByToken(token);
-        System.out.println(usernameAddPasswordByToken);
-        String usernameByToken = JWTUtil.getUsernameByToken(token);
-        System.out.println(usernameByToken);
+//        User user = new User();
+//        user.setUsername("admin");
+//        user.setPassword("123456");
+//        String token = JWTUtil.createToken(user);
+//        System.out.println(token);
+//        String usernameAddPasswordByToken = JWTUtil.getUsernameByToken(token);
+//        System.out.println(usernameAddPasswordByToken);
+//        String usernameByToken = JWTUtil.getUsernameByToken(token);
+//        System.out.println(usernameByToken);
 
 //        String s1 = "qwe";
 //        String s2 = "qweasdasdasd";

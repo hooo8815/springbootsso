@@ -71,6 +71,7 @@ var CoreUtil = (function () {
             error:function (XMLHttpRequest, textStatus, errorThrown) {
                 top.layer.close(roleSaveLoading);
                if(XMLHttpRequest.status==404){
+                   layer.msg("404");
                     //top.window.location.href="/index/404";
                 }else{
                    layer.msg("有点问题哦");

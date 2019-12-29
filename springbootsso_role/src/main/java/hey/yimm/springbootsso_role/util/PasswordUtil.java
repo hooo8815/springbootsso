@@ -60,15 +60,14 @@ public class PasswordUtil {
 
 
 
-    /**
-     * 生成含有随机盐的密码
-     *
-     * @param password 要加密的密码
-     * @param hashAlgorithm 加密的方式
-     * @param number 加密的次数
-     *
-     * @return String 含有随机盐的密码
-     */
+//    /**
+//     * 生成含有随机盐的密码
+//     * @param password 要加密的密码
+//     * @param hashAlgorithm 加密的方式
+//     * @param number 加密的次数
+//     *
+//     * @return String 含有随机盐的密码
+//     */
 //    public static String getSaltMD5(String password,String hashAlgorithm,int number) {
 //        // 生成一个16位的随机数
 //        Random random = new Random();
@@ -106,5 +105,11 @@ public class PasswordUtil {
         }
         return false;
     }
+
+    public static String createNewPwd(String password){
+        Md5Hash md5Hash = new Md5Hash(password,password,2019);
+        return md5Hash.toString();
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package hey.yimm.springbootsso_role.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import hey.yimm.springbootsso_role.bean.Role;
 import hey.yimm.springbootsso_role.bean.User;
 import hey.yimm.springbootsso_role.service.UserService;
@@ -101,6 +102,18 @@ public class UserController {
     }
 
 
+
+    @RequestMapping("/pwd")
+    @ResponseBody
+    public ResponseData<String> changPwd(@RequestBody JSONObject jsonObject){
+        System.out.println(jsonObject.toString());
+        System.out.println(jsonObject.getString("oldPwd"));
+        System.out.println(jsonObject.getString("newPwd"));
+        System.out.println(jsonObject.getString("rePass"));
+        ResponseData<String> stringResponseData = new ResponseData<>();
+
+        return stringResponseData;
+    }
 
 
 
