@@ -4,11 +4,14 @@ import hey.yimm.springbootsso_role.bean.Permission;
 import hey.yimm.springbootsso_role.bean.Role;
 import hey.yimm.springbootsso_role.bean.User;
 import hey.yimm.springbootsso_role.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -50,6 +53,9 @@ public class MyRealm extends AuthorizingRealm {
             return null;
         ByteSource bytes = ByteSource.Util.bytes(usernamePasswordToken.getPassword());
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(usernamePasswordToken,usersByUsername.getPassword(),bytes,getName());
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        session.setAttribute("currentuser",usernamePasswordToken.getUsername());
         return simpleAuthenticationInfo;
     }
 }

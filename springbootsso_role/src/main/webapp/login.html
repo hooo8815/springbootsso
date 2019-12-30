@@ -64,6 +64,15 @@
         var $ = jQuery = layui.jquery;
         var form = layui.form;
         var carousel = layui.carousel;
+        window.onload=function(){
+            //||CoreUtil.getData("access_token")!=localStorage.getItem("token")
+            if (CoreUtil.getData("access_token")!=null||CoreUtil.getData("access_token")!="")
+
+                location.href="/home.html?token="+localStorage.getItem("token");
+
+        }
+
+
         $(function () {
             form.on('submit(submit)',function (data) {
                 CoreUtil.sendAjax("/user/login",JSON.stringify(data.field),function (res) {

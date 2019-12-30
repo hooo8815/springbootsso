@@ -10,4 +10,6 @@ public interface UserService {
     User getUsersByUsername(String username);
 
     User getUserSuperInfoByUsername(String username);
+
+    int changeUserInfo(User user);
 }

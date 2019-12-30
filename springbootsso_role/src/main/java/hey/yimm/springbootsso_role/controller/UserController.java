@@ -11,6 +11,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -81,20 +82,36 @@ public class UserController {
 
 
 //    @RequiresRoles("超级管理员")
-//    @RequiresPermissions("新增")
+//    @RequiresPermissions("User:*")
     @RequestMapping("/saveinfo")
     @ResponseBody
-    public ResponseData<String> saveInfo(@RequestBody User user){
-        //String username,String email,String phone, String realName, String sex, Byte status
-        System.out.println(user.getUsername());
-        System.out.println(user.getEmail());
-        User userSuperInfoByUsername = userService.getUserSuperInfoByUsername(user.getUsername());
-        if (userSuperInfoByUsername!=null&&userSuperInfoByUsername.getRoleSet().size()!=0){
-            for (Role role : userSuperInfoByUsername.getRoleSet()) {
-                System.out.println(role);
-            }
-        }
-        System.out.println("添加用户");
+    public ResponseData<String> saveInfo(@RequestBody JSONObject jsonObject){
+//        System.out.println(jsonObject.toJSONString());
+//        System.out.println(jsonObject.getString("username"));
+//        System.out.println(jsonObject.getString("email"));
+//        System.out.println(jsonObject.getString("phone"));
+//        System.out.println(jsonObject.getString("realName"));
+//        System.out.println(jsonObject.getString("sex"));
+//        System.out.println(jsonObject.getString("status"));
+//        User userSuperInfoByUsername = userService.getUserSuperInfoByUsername(user.getUsername());
+//        if (userSuperInfoByUsername!=null&&userSuperInfoByUsername.getRoleSet().size()!=0){
+//            for (Role role : userSuperInfoByUsername.getRoleSet()) {
+//                System.out.println(role);
+//            }
+//        }
+//        Session session = SecurityUtils.getSubject().getSession();
+//        String currentuser = session.getAttribute("currentuser").toString();
+//        System.out.println(currentuser);
+//        User usersByUsername = userService.getUsersByUsername(currentuser);
+//        usersByUsername.setUsername(jsonObject.getString("username"));
+//        usersByUsername.setEmail(jsonObject.getString("email"));
+//        usersByUsername.setPhone(jsonObject.getString("phone"));
+//        usersByUsername.setRealName(jsonObject.getString("realName"));
+//        usersByUsername.setSex(new Byte(jsonObject.getString("sex")));
+//        usersByUsername.setStatus(new Byte(jsonObject.getString("status")));
+//
+//         int i = userService.changeUserInfo(usersByUsername);
+        System.out.println("修改用户");
         ResponseData<String> stringResponseData = new ResponseData<>();
         stringResponseData.setCode(0);
         stringResponseData.setMessage("修改成功");
@@ -106,14 +123,35 @@ public class UserController {
     @RequestMapping("/pwd")
     @ResponseBody
     public ResponseData<String> changPwd(@RequestBody JSONObject jsonObject){
+
         System.out.println(jsonObject.toString());
         System.out.println(jsonObject.getString("oldPwd"));
         System.out.println(jsonObject.getString("newPwd"));
         System.out.println(jsonObject.getString("rePass"));
-        ResponseData<String> stringResponseData = new ResponseData<>();
+        Session session = SecurityUtils.getSubject().getSession();
+        String currentuser = session.getAttribute("currentuser").toString();
+        User usersByUsername = userService.getUsersByUsername(currentuser);
+        usersByUsername.setPassword(jsonObject.getString("newPwd"));
+        int i = userService.changeUserInfo(usersByUsername);
 
+        ResponseData<String> stringResponseData = new ResponseData<>();
+        stringResponseData.setCode(0);
+        stringResponseData.setMessage("修改成功");
+        if (i<1)
+            stringResponseData.setMessage("修改失败");
         return stringResponseData;
     }
+
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public ResponseData<String> toLogout(){
+        ResponseData<String> stringResponseData = new ResponseData<>();
+        stringResponseData.setCode(0);
+        stringResponseData.setMessage("注销");
+        return stringResponseData;
+    }
+
 
 
 

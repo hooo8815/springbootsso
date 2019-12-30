@@ -27,7 +27,7 @@ public class User {
 
     private String email;
 
-    private String status;
+    private Byte status;
 
     private Byte sex;
 
@@ -117,11 +117,11 @@ public class User {
         this.email = email == null ? null : email.trim();
     }
 
-    public String getStatus() {
+    public Byte getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Byte status) {
         this.status = status;
     }
 

@@ -22,4 +22,9 @@ public class RedisUtil {
         return username;
     }
 
+    public Boolean removeToken(String token){
+        Boolean delete = redisTemplate.delete(token);
+        return delete;
+    }
+
 }

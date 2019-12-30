@@ -61,7 +61,7 @@
     var $ = jQuery = layui.jquery;
     var form = layui.form;
     var element = layui.element;
-
+    // alert(CoreUtil.getData("access_token"));
     $(function () {
         FrameWH();
         //递归获取导航栏无线层级
@@ -80,50 +80,50 @@
             ulHtml += "</dl>"
             return ulHtml;
         };
-        CoreUtil.sendAjax("/sys/home/",null,function (res) {
-            $("#deptName").html("所属机构:"+res.data.userInfo.deptName);
-            $("#nickName").html(res.data.userInfo.username);
-            var data=res.data.menus;
-            if(data!= "" && data.length>0){
-                var ulHtml = '<ul class="layui-nav layui-nav-tree layui-left-nav">';
-                if(data!= null&&data.length > 0){
-
-                $.each(data,function(index,item){
-                    if(index == 0){
-                        ulHtml += '<li class="layui-nav-item layui-nav-itemed">';
-                    }else{
-                        ulHtml += '<li class="layui-nav-item">';
-                    }
-                    ulHtml += '<a href="javascript:;">';
-                    ulHtml += '<cite>'+item.title+'</cite>';
-                    ulHtml += '</a>'
-                    if(item.children != null && item.children.length > 0){
-                        ulHtml += '<dl class="layui-nav-child">';
-                        $.each(item.children,function(index,child){
-                            if(child.children !=null&& child.children.length>0){
-                                ulHtml +='<a>'+child.title+'</a>';
-                                ulHtml +=getChild(child.children,"");
-                            }else {
-                                ulHtml += '<dd><a href="javascript:;" data-url="'+child.url+'" data-title="'+child.title+'" data-id="'+child.id+'" class="menuNvaBar">';
-                                ulHtml += '<cite>'+child.title+'</cite></a></dd>';
-                            }
-
-                        });
-                        ulHtml += "</dl>"
-                    }
-                    ulHtml += '</li>'
-                });
-                }
-                ulHtml += '</ul>';
-                $(".navBar").html(ulHtml);
-                element.init();  //初始化页面元素
-
-            }else{
-                $("#navBarId").empty();
-            }
-
-            top.layer.closeAll();
-        },"GET",false);
+        // CoreUtil.sendAjax("/sys/home/",null,function (res) {
+        //     $("#deptName").html("所属机构:"+res.data.userInfo.deptName);
+        //     $("#nickName").html(res.data.userInfo.username);
+        //     var data=res.data.menus;
+        //     if(data!= "" && data.length>0){
+        //         var ulHtml = '<ul class="layui-nav layui-nav-tree layui-left-nav">';
+        //         if(data!= null&&data.length > 0){
+        //
+        //         $.each(data,function(index,item){
+        //             if(index == 0){
+        //                 ulHtml += '<li class="layui-nav-item layui-nav-itemed">';
+        //             }else{
+        //                 ulHtml += '<li class="layui-nav-item">';
+        //             }
+        //             ulHtml += '<a href="javascript:;">';
+        //             ulHtml += '<cite>'+item.title+'</cite>';
+        //             ulHtml += '</a>'
+        //             if(item.children != null && item.children.length > 0){
+        //                 ulHtml += '<dl class="layui-nav-child">';
+        //                 $.each(item.children,function(index,child){
+        //                     if(child.children !=null&& child.children.length>0){
+        //                         ulHtml +='<a>'+child.title+'</a>';
+        //                         ulHtml +=getChild(child.children,"");
+        //                     }else {
+        //                         ulHtml += '<dd><a href="javascript:;" data-url="'+child.url+'" data-title="'+child.title+'" data-id="'+child.id+'" class="menuNvaBar">';
+        //                         ulHtml += '<cite>'+child.title+'</cite></a></dd>';
+        //                     }
+        //
+        //                 });
+        //                 ulHtml += "</dl>"
+        //             }
+        //             ulHtml += '</li>'
+        //         });
+        //         }
+        //         ulHtml += '</ul>';
+        //         $(".navBar").html(ulHtml);
+        //         element.init();  //初始化页面元素
+        //
+        //     }else{
+        //         $("#navBarId").empty();
+        //     }
+        //
+        //     top.layer.closeAll();
+        // },"GET",false);
         $(document).on('click','.menuNvaBar',function () {
             var dataid = $(this);
             if ($(".layui-tab-title li[lay-id]").length <= 0) {
@@ -154,8 +154,11 @@
             content: '确定要退出登录么？',
             yes: function(index, layero){
                 layer.close(index); //如果设定了yes回调，需进行手工关闭
-                CoreUtil.sendAjax("/sys/user/logout",null,function (res) {
-                    top.window.location.href="/index/login";
+                CoreUtil.sendAjax("/user/logout",null,function (res) {
+                    // CoreUtil.setData("access_token",res.t);
+                    // CoreUtil.setData("refresh_token",res.t);
+                    // localStorage.removeItem("token");
+                    top.window.location.href="/login.html";
                 },"GET",true);
             }
         });
