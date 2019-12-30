@@ -25,7 +25,7 @@ var CoreUtil = (function () {
 
             },
             success: function (res) {
-                top.layer.close(roleSaveLoading);
+                //top.layer.close(roleSaveLoading);
                 if (typeof ft == "function") {
                     if(res.code==401001){ //凭证过期重新登录
                         layer.msg("凭证过期请重新登录")
@@ -63,16 +63,16 @@ var CoreUtil = (function () {
                         }
 
                     } else {
-                        layer.msg(res.msg)
+                        layer.msg(res.msg);
                     }
 
                 }
             },
             error:function (XMLHttpRequest, textStatus, errorThrown) {
-                top.layer.close(roleSaveLoading);
+                //top.layer.close(roleSaveLoading);
                if(XMLHttpRequest.status==404){
-                   layer.msg("404");
-                    //top.window.location.href="/index/404";
+                   //layer.msg("404");
+                    top.window.location.href="/pages/error/404";
                 }else{
                    layer.msg("有点问题哦");
                     // layer.msg("服务器好像除了点问题！请稍后试试");

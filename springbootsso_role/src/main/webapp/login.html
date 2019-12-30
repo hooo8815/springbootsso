@@ -64,12 +64,13 @@
         var $ = jQuery = layui.jquery;
         var form = layui.form;
         var carousel = layui.carousel;
+
         window.onload=function(){
+            //CoreUtil.setData("access_token","");
             //||CoreUtil.getData("access_token")!=localStorage.getItem("token")
-            if (CoreUtil.getData("access_token")!=null||CoreUtil.getData("access_token")!="")
-
+            if (CoreUtil.getData("access_token")!=null&&CoreUtil.getData("access_token")!=""){
                 location.href="/home.html?token="+localStorage.getItem("token");
-
+            }
         }
 
 

@@ -33,11 +33,6 @@ public class LoginInterceptor extends BasicHttpAuthenticationFilter {
 //            System.out.println("-----------------------------------------------");
 //            return false;
 //        }
-//        if (httpServletRequest.getServletPath().contains("logout")){
-//            redisUtil.removeToken("token");
-//            httpServletRequest.getRequestURI().substring(0,httpServletRequest.getRequestURL().indexOf("?"));
-//            return true;
-//        }
         //||httpServletRequest.getServletPath().contains("/user/login")||httpServletRequest.getRequestURI().contains("css")||httpServletRequest.getRequestURI().contains("images")||httpServletRequest.getRequestURI().contains("js")||httpServletRequest.getRequestURI().contains("layui")||httpServletRequest.getRequestURI().contains("treetable-lay")||httpServletRequest.getRequestURI().contains("error")
         if (httpServletRequest.getRequestURI().contains("login.html")||httpServletRequest.getServletPath().contains("/user/login")||httpServletRequest.getRequestURI().contains("css")||httpServletRequest.getRequestURI().contains("images")||httpServletRequest.getRequestURI().contains("js")||httpServletRequest.getRequestURI().contains("layui")||httpServletRequest.getRequestURI().contains("treetable-lay")||httpServletRequest.getRequestURI().contains("error")){
             System.out.println("放行操作"+httpServletRequest.getRequestURL());
@@ -60,6 +55,7 @@ public class LoginInterceptor extends BasicHttpAuthenticationFilter {
 
 
             String tokenValue = redisUtil.getTokenValue(token);
+
 //            loginName = tokenValue;
             System.out.println("tokenValue:"+tokenValue);
 //            String usernameByToken = JWTUtil.getUsernameByToken(token);
@@ -70,6 +66,7 @@ public class LoginInterceptor extends BasicHttpAuthenticationFilter {
                 //httpServletResponse.sendRedirect("/login.html");
                 return false;
             }
+
             System.out.println("验证成功，放行");
             return true;
         }

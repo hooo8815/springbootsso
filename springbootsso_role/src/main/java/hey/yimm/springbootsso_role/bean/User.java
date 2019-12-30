@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.Set;
 
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private String id;
 

@@ -5,6 +5,7 @@ import hey.yimm.springbootsso_role.bean.Role;
 import hey.yimm.springbootsso_role.bean.User;
 import hey.yimm.springbootsso_role.service.UserService;
 import hey.yimm.springbootsso_role.util.JWTUtil;
+import hey.yimm.springbootsso_role.util.PasswordUtil;
 import hey.yimm.springbootsso_role.util.RedisUtil;
 import hey.yimm.springbootsso_role.util.ResponseData;
 import org.apache.shiro.SecurityUtils;
@@ -86,6 +87,9 @@ public class UserController {
     @RequestMapping("/saveinfo")
     @ResponseBody
     public ResponseData<String> saveInfo(@RequestBody JSONObject jsonObject){
+        ResponseData<String> stringResponseData = new ResponseData<>();
+        stringResponseData.setCode(0);
+        stringResponseData.setMessage("修改失败");
 //        System.out.println(jsonObject.toJSONString());
 //        System.out.println(jsonObject.getString("username"));
 //        System.out.println(jsonObject.getString("email"));
@@ -99,22 +103,25 @@ public class UserController {
 //                System.out.println(role);
 //            }
 //        }
-//        Session session = SecurityUtils.getSubject().getSession();
-//        String currentuser = session.getAttribute("currentuser").toString();
-//        System.out.println(currentuser);
-//        User usersByUsername = userService.getUsersByUsername(currentuser);
-//        usersByUsername.setUsername(jsonObject.getString("username"));
-//        usersByUsername.setEmail(jsonObject.getString("email"));
-//        usersByUsername.setPhone(jsonObject.getString("phone"));
-//        usersByUsername.setRealName(jsonObject.getString("realName"));
-//        usersByUsername.setSex(new Byte(jsonObject.getString("sex")));
-//        usersByUsername.setStatus(new Byte(jsonObject.getString("status")));
-//
-//         int i = userService.changeUserInfo(usersByUsername);
+        Session session = SecurityUtils.getSubject().getSession();
+        Object currentuser = session.getAttribute("currentuser");
+        System.out.println(currentuser);
+        if (currentuser!=null&&currentuser!=""){
+            User usersByUsername = userService.getUsersByUsername(currentuser.toString());
+            usersByUsername.setUsername(jsonObject.getString("username"));
+            usersByUsername.setEmail(jsonObject.getString("email"));
+            usersByUsername.setPhone(jsonObject.getString("phone"));
+            usersByUsername.setRealName(jsonObject.getString("realName"));
+            usersByUsername.setSex(new Byte(jsonObject.getString("sex")));
+            usersByUsername.setStatus(new Byte(jsonObject.getString("status")));
+            userService.changeUserInfo(usersByUsername);
+            stringResponseData.setMessage("修改成功");
+        }
+
+
         System.out.println("修改用户");
-        ResponseData<String> stringResponseData = new ResponseData<>();
-        stringResponseData.setCode(0);
-        stringResponseData.setMessage("修改成功");
+        stringResponseData.setMessage("登陆信息失效，请退出重新登陆");
+
         return stringResponseData;
     }
 
@@ -123,22 +130,28 @@ public class UserController {
     @RequestMapping("/pwd")
     @ResponseBody
     public ResponseData<String> changPwd(@RequestBody JSONObject jsonObject){
-
+        ResponseData<String> stringResponseData = new ResponseData<>();
+        stringResponseData.setCode(0);
+        stringResponseData.setMessage("修改失败");
         System.out.println(jsonObject.toString());
         System.out.println(jsonObject.getString("oldPwd"));
         System.out.println(jsonObject.getString("newPwd"));
         System.out.println(jsonObject.getString("rePass"));
         Session session = SecurityUtils.getSubject().getSession();
-        String currentuser = session.getAttribute("currentuser").toString();
-        User usersByUsername = userService.getUsersByUsername(currentuser);
-        usersByUsername.setPassword(jsonObject.getString("newPwd"));
-        int i = userService.changeUserInfo(usersByUsername);
-
-        ResponseData<String> stringResponseData = new ResponseData<>();
-        stringResponseData.setCode(0);
-        stringResponseData.setMessage("修改成功");
-        if (i<1)
-            stringResponseData.setMessage("修改失败");
+        Object currentuser = session.getAttribute("currentuser");
+        System.out.println(currentuser);
+        if (currentuser!=null&&currentuser!=""){
+            User usersByUsername = userService.getUsersByUsername(currentuser.toString());
+            System.out.println("-----id-------"+usersByUsername.getId());
+            if(PasswordUtil.checkPassword(jsonObject.getString("oldPwd"),usersByUsername.getPassword())){
+                usersByUsername.setPassword(jsonObject.getString("newPwd"));
+                userService.changeUserInfo(usersByUsername);
+                stringResponseData.setMessage("修改成功，请重新登陆");
+                System.out.println("-------修改成功---------");
+            }
+        }
+        System.out.println("-------修改失败---------");
+        stringResponseData.setMessage("登陆信息失效，请退出重新登陆");
         return stringResponseData;
     }
 
