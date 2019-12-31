@@ -1,0 +1,239 @@
+线程的setID方法？
+cookie的setName方法？
+cookie的value不能有空格，在RFC2019协议中不支持空格
+设置的cookie和获取的cookie不是同一个对象，构造cookie只能通过new，而cookie的构造方法只能传name和value，所以其他属性的值丢失
+cookie设置的存活时间是惰性存活时间（一旦设置则会严格按照该时间过期）
+session是活性存活时间（长时间和服务器保持联系则不过期）
+cookie的name和value都是String类型，session的name是String类型而value是Object类型
+session的工作原理是基于cookie
+Rest和Restful
+dateType：后端返回给前端的值的类型，会自动进行匹配,如果是json类型只能是标准json字符串，否则需要eval()
+JS中函数可以当做类
+JSON对象就是JS对象
+Gson gson = new Gson()   .toJson(Obj)    .fromJson(Json,Obj.class)
+html 流性文档，从上而下读取绝不回滚
+groupId 分组ID，一般写公司或项目域名的倒叙，如com.baidu
+artifactId 一般设置为项目名，不允许出现大写字母
+maven骨架
+<dependency>(坐标)</dependency>
+mvn archetype:create-from-project
+javadoc
+二进制字节码（.class文件）
+ElementType  jdk1.8有10个
+反射都是值传递
+成员内部类、静态内部类：A$B，局部内部类：$B，匿名内部类：A$1
+Class.forName  加载驱动
+$("input[placeholder='请输入..']").attr("value",value);  属性选择器
+快速失败异常
+时间、空间复杂度
+幂等性
+代码侵入性
+vuex
+存储过程
+MySQL高级映射（视图view）
+Proxy动态代理
+concurrenthashmap 分段加锁技术(有强制的排序)
+外键约束(关联关系)
+降维
+断言，资源钩子
+mybatis 一级缓存、二级缓存***
+序列化
+寄存器、冯诺依曼体系、内存
+queue
+乐观锁、悲观锁
+布隆过滤器
+不使用new获取对象
+factory-method 通过factory-method属性有两种方式，一种是静态的(方法必须是静态的)，另一种是动态的
+set 桶的高度  加载因子 和map的关系
+哈希碰撞
+entry、map
+schema
+JNDI
+validate
+jni方法、start() start0() run()
+守护线程
+expression表达式、execution()
+事物回滚还原点
+binlog
+threadlocal***
+事务管理器
+事物级别
+事物七种传播方式
+线程基本状态、状态的转换
+21个常用的流
+NIO
+最长公共子序列
+xml解析
+springMVC工作原理
+隐藏表单域
+@RequestBody、@Request
+validate
+盐值加密
+线性同余方程
+drop、truncate和delete
+mysql行列转换
+MyCat
+内外连接性能
+读写锁
+cascade
+TCP UTP
+ip地址租期
+pop、peek
+标志符、关键字
+双亲委托机制
+二叉树 、叶子节点（也叫终端结点，是度为 0 的结点；）
+缓存击穿，缓存穿透，缓存雪崩，布隆过滤器
+正太分布表达式
+互斥锁
+随机数、种子、伪随机数
+主从结构、主从复制
+IOC/DI
+mysql日志配置
+心跳机制、线程同步机制
+动态规划、分治算法、贪心算法
+cpu调度，时间片轮转、抢占优先级
+单核、多核下的优先级
+端口
+数据库搜索引擎***
+fork
+snapshot
+生产者消费者
+故障切换（failover）
+java异常处理逻辑
+内存泄露
+log日志级别
+长链接和短链接
+负载均衡、负载均衡算法
+网络安全架构
+哈希一致性算法
+4k对齐
+jsonp
+md5、加密方式（策略）
+对称加密、非对称加密
+MIME
+System.out.println() 滞后问题
+uv pv ip vv
+soap
+SMTP、POP、IMTP
+thread group
+丢包率
+bio nio aio
+java内省***
+事件委托、事件冒泡
+objects
+主观下线、客观下线 ***
+搜索引擎是数据库级别？表级别？数据级别？***
+QPS
+行锁、列锁
+死锁的解决方案、产生条件
+索引、左前索引、BTREE、HASH
+binlog
+存储过程
+mysql授权
+select * 和select id,name ... 两者性能
+ArrayList   moncount
+从节点如何获取主节点的数据
+iife
+闭包 js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
